@@ -2,31 +2,39 @@ const darkModeToggle = document.getElementById('toggle-dark-mode');
 const formatToggle = document.getElementById('toggle-format');
 const fullscreenToggle = document.getElementById('toggle-fullscreen');
 const exitFullscreenButton = document.getElementById('exit-fullscreen');
-const storyContent = document.getElementById('story-content');
 const chaptersContainer = document.getElementById('chapters');
+const storyContent = document.getElementById('story-content');
 
-// Define chapters with separate HTML files
+// Define chapters with both HTML and PDF options
 const chapters = [
-  { title: "Chapter 1 — Fade", file: "chapter1.html" },
-  { title: "Chapter 2 — The Archive", file: "chapter2.html" }
+  { title: "Chapter 1 — fade. HTML", type: "html", file: "fade.html" },
+  { title: "Chapter 1 — fade. (archived) HTML", type: "html", file: "fade2.html" },
+  { title: "Chapter 1 — fade. PDF (Formatted)", type: "pdf", file: "1-Fade.pdf" },
+  { title: "Chapter 1 — fade. PDF (Colorless)", type: "pdf", file: "1-Fade-Colorless.pdf" },
+  { title: "Chapter 1 — fade. (archived) PDF (Formatted)", type: "pdf", file: "1-Fade-Archived-Version.pdf" },
+  { title: "Chapter 1 — fade. (archived) PDF (Colorless)", type: "pdf", file: "1-Fade-Archived-Version-Colorless.pdf" }
 ];
 
-let isDarkMode = false;
-let isFormatted = true;
-
-// Populate chapter list
+// Populate chapter list dynamically
 chapters.forEach((chapter) => {
   const chapterItem = document.createElement('div');
   chapterItem.classList.add('chapter-item');
   chapterItem.textContent = chapter.title;
+
+  // Set up click behavior
   chapterItem.onclick = () => {
-    loadChapter(chapter.file);
+    if (chapter.type === "html") {
+      loadHTMLChapter(chapter.file);
+    } else if (chapter.type === "pdf") {
+      loadPDFChapter(chapter.file);
+    }
   };
+
   chaptersContainer.appendChild(chapterItem);
 });
 
-// Load chapter dynamically
-function loadChapter(file) {
+// Function to load HTML chapters dynamically
+function loadHTMLChapter(file) {
   fetch(file)
     .then((response) => {
       if (!response.ok) throw new Error(`Could not load ${file}`);
@@ -39,6 +47,12 @@ function loadChapter(file) {
       storyContent.innerHTML = `<p>Error loading chapter: ${error.message}</p>`;
     });
 }
+
+// Function to load PDF chapters in an iframe
+function loadPDFChapter(file) {
+  storyContent.innerHTML = `<iframe src="${file}" width="100%" height="500px"></iframe>`;
+}
+
 
 // Toggle dark mode
 darkModeToggle.onclick = () => {
