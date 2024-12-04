@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Story</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    #toggle-dark-mode {
+      background-color: #222;
+      color: #fff;
+    }
+    #toggle-dark-mode.light-mode {
+      background-color: #fff;
+      color: #000;
+    }
+    #toggle-format {
+      background-color: #007BFF;
+      color: #fff;
+    }
+    .chapter-list {
+      margin-top: 20px;
+    }
+    .chapter-item {
+      margin: 5px 0;
+      cursor: pointer;
+      color: #007BFF;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="controls">
+      <button id="toggle-dark-mode">Toggle Dark Mode</button>
+      <button id="toggle-format">Toggle Text Format</button>
+    </div>
+
+    <div id="story-content">
+      <p>Welcome to your story! Select a chapter from the list below to begin reading.</p>
+    </div>
+
+    <div class="chapter-list">
+      <h3>Chapters</h3>
+      <div id="chapters"></div>
+    </div>
+  </div>
+
+  <script>
+    const darkModeToggle = document.getElementById('toggle-dark-mode');
+    const formatToggle = document.getElementById('toggle-format');
+    const storyContent = document.getElementById('story-content');
+    const chaptersContainer = document.getElementById('chapters');
+
+    const chapters = [
+      { title: "Chapter 1", formatted: "chapter1_formatted.pdf", raw: "chapter1_raw.pdf" },
+      { title: "Chapter 2", formatted: "chapter2_formatted.pdf", raw: "chapter2_raw.pdf" }
+      // Add more chapters as needed
+    ];
+
+    let isDarkMode = false;
+    let isFormatted = true;
+
+    // Populate chapter list
+    chapters.forEach((chapter, index) => {
+      const chapterItem = document.createElement('div');
+      chapterItem.classList.add('chapter-item');
+      chapterItem.textContent = chapter.title;
+      chapterItem.onclick = () => {
+        const link = isFormatted ? chapter.formatted : chapter.raw;
+        storyContent.innerHTML = `<iframe src="${link}" width="100%" height="500px"></iframe>`;
+      };
+      chaptersContainer.appendChild(chapterItem);
+    });
+
+    // Toggle dark mode
+    darkModeToggle.onclick = () => {
+      isDarkMode = !isDarkMode;
+      document.body.style.backgroundColor = isDarkMode ? "#222" : "#fff";
+      document.body.style.color = isDarkMode ? "#fff" : "#000";
+      darkModeToggle.classList.toggle('light-mode', !isDarkMode);
+    };
+
+    // Toggle text format
+    formatToggle.onclick = () => {
+      isFormatted = !isFormatted;
+      storyContent.innerHTML = `<p>${isFormatted ? "Formatted" : "Raw"} version selected. Choose a chapter to load.</p>`;
+    };
+  </script>
+</body>
+</html>
