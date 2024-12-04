@@ -50,7 +50,7 @@ function loadHTMLChapter(file) {
 
 // Function to load PDF chapters in an iframe
 function loadPDFChapter(file) {
-  storyContent.innerHTML = `<iframe src="${file}" width="100%" height="500px"></iframe>`;
+  storyContent.innerHTML = `<iframe src="${file}" width="100%" height="100%"></iframe>`;
 }
 
 
