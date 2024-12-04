@@ -1,53 +1,70 @@
-    const darkModeToggle = document.getElementById('toggle-dark-mode');
-    const formatToggle = document.getElementById('toggle-format');
-    const fullscreenToggle = document.getElementById('toggle-fullscreen');
-    const exitFullscreenButton = document.getElementById('exit-fullscreen');
-    const storyContent = document.getElementById('story-content');
-    const chaptersContainer = document.getElementById('chapters');
+const darkModeToggle = document.getElementById('toggle-dark-mode');
+const formatToggle = document.getElementById('toggle-format');
+const fullscreenToggle = document.getElementById('toggle-fullscreen');
+const exitFullscreenButton = document.getElementById('exit-fullscreen');
+const storyContent = document.getElementById('story-content');
+const chaptersContainer = document.getElementById('chapters');
 
-    const chapters = [
-      { title: "Chapter 1 — fade.", formatted: "1-Fade.pdf", raw: "1-Fade-Colorless.pdf" },
-      { title: "Chapter 1 — fade. (archived)", formatted: "1-Fade-Archived-Version.pdf", raw: "1-Fade-Archived-Version-Colorless.pdf" }
-      // Add more chapters as needed
-    ];
+// Define chapters with separate HTML files
+const chapters = [
+  { title: "Chapter 1 — Fade", file: "chapter1.html" },
+  { title: "Chapter 2 — The Archive", file: "chapter2.html" }
+];
 
-    let isDarkMode = false;
-    let isFormatted = true;
+let isDarkMode = false;
+let isFormatted = true;
 
-    // Populate chapter list
-    chapters.forEach((chapter, index) => {
-      const chapterItem = document.createElement('div');
-      chapterItem.classList.add('chapter-item');
-      chapterItem.textContent = chapter.title;
-      chapterItem.onclick = () => {
-        const link = isFormatted ? chapter.formatted : chapter.raw;
-        storyContent.innerHTML = `<iframe src="${link}"></iframe>`;
-      };
-      chaptersContainer.appendChild(chapterItem);
+// Populate chapter list
+chapters.forEach((chapter) => {
+  const chapterItem = document.createElement('div');
+  chapterItem.classList.add('chapter-item');
+  chapterItem.textContent = chapter.title;
+  chapterItem.onclick = () => {
+    loadChapter(chapter.file);
+  };
+  chaptersContainer.appendChild(chapterItem);
+});
+
+// Load chapter dynamically
+function loadChapter(file) {
+  fetch(file)
+    .then((response) => {
+      if (!response.ok) throw new Error(`Could not load ${file}`);
+      return response.text();
+    })
+    .then((html) => {
+      storyContent.innerHTML = html;
+    })
+    .catch((error) => {
+      storyContent.innerHTML = `<p>Error loading chapter: ${error.message}</p>`;
     });
+}
 
-    // Toggle dark mode
-    darkModeToggle.onclick = () => {
-      isDarkMode = !isDarkMode;
-      document.body.style.backgroundColor = isDarkMode ? "#222" : "#fff";
-      document.body.style.color = isDarkMode ? "#fff" : "#000";
-      darkModeToggle.classList.toggle('light-mode', !isDarkMode);
-    };
+// Toggle dark mode
+darkModeToggle.onclick = () => {
+  isDarkMode = !isDarkMode;
+  document.body.style.backgroundColor = isDarkMode ? "#222" : "#fff";
+  document.body.style.color = isDarkMode ? "#fff" : "#000";
+  darkModeToggle.classList.toggle('light-mode', !isDarkMode);
+};
 
-    // Toggle text format
-    formatToggle.onclick = () => {
-      isFormatted = !isFormatted;
-      storyContent.innerHTML = `<p>${isFormatted ? "Colored" : "Plain"} version selected. Choose a chapter to load.</p>`;
-    };
+// Toggle text format
+formatToggle.onclick = () => {
+  isFormatted = !isFormatted;
+  storyContent.style.color = isFormatted ? "inherit" : "#aaa"; // Example: lighten/darken text color
+  storyContent.innerHTML = isFormatted
+    ? `<p>Formatted view enabled. Choose a chapter to load.</p>`
+    : `<p>Plain text view enabled. Choose a chapter to load.</p>`;
+};
 
-    // Enable full screen
-    fullscreenToggle.onclick = () => {
-      storyContent.classList.add('fullscreen');
-      exitFullscreenButton.style.display = "block";
-    };
+// Enable full screen
+fullscreenToggle.onclick = () => {
+  storyContent.classList.add('fullscreen');
+  exitFullscreenButton.style.display = "block";
+};
 
-    // Exit full screen
-    exitFullscreenButton.onclick = () => {
-      storyContent.classList.remove('fullscreen');
-      exitFullscreenButton.style.display = "none";
-    };
+// Exit full screen
+exitFullscreenButton.onclick = () => {
+  storyContent.classList.remove('fullscreen');
+  exitFullscreenButton.style.display = "none";
+};
