@@ -1,0 +1,39 @@
+/* General styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode {
+  background-color: #222;
+  color: #fff;
+}
+
+/* Chapter list */
+.chapter-list {
+  margin-top: 20px;
+}
+
+.chapter-item {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #e9f5ff;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.chapter-item:hover {
+  background-color: #cceeff;
+}
+
+/* Feedback form */
+#feedback-form {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
