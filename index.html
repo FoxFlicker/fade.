@@ -35,7 +35,7 @@
       background-color: #fff;
       color: #000;
     }
-    #toggle-format {
+    #toggle-format, #toggle-fullscreen {
       background-color: #007BFF;
       color: #fff;
     }
@@ -48,30 +48,66 @@
       color: #007BFF;
       text-decoration: underline;
     }
+    #story-content iframe {
+      width: 100%;
+      height: 500px;
+    }
+    #story-content.fullscreen iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+    #story-content.fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: inherit;
+      z-index: 1000;
+      padding: 0;
+      margin: 0;
+    }
+    #exit-fullscreen {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1100;
+      padding: 10px 15px;
+      background-color: #FF4136;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="controls">
       <button id="toggle-dark-mode">Toggle Dark Mode</button>
-      <button id="toggle-format">Toggle Text Format</button>
+      <button id="toggle-format">Toggle Text Color</button>
+      <button id="toggle-fullscreen">Full Screen</button>
     </div>
 
     <div id="story-content">
       <p>Welcome to your story! Select a chapter from the list below to begin reading.</p>
     </div>
 
+    <button id="exit-fullscreen">Exit Full Screen</button>
+
     <div class="chapter-list">
       <h3>Chapters</h3>
-      <div id="chapters">Chapter 1 — fade.</div>
-      <br>
-      <div id="chapters">Chapter 1 — fade. (Archived Version)</div>
+      <div id="chapters"></div>
     </div>
   </div>
 
   <script>
     const darkModeToggle = document.getElementById('toggle-dark-mode');
     const formatToggle = document.getElementById('toggle-format');
+    const fullscreenToggle = document.getElementById('toggle-fullscreen');
+    const exitFullscreenButton = document.getElementById('exit-fullscreen');
     const storyContent = document.getElementById('story-content');
     const chaptersContainer = document.getElementById('chapters');
 
@@ -91,7 +127,7 @@
       chapterItem.textContent = chapter.title;
       chapterItem.onclick = () => {
         const link = isFormatted ? chapter.formatted : chapter.raw;
-        storyContent.innerHTML = `<iframe src="${link}" width="100%" height="500px"></iframe>`;
+        storyContent.innerHTML = `<iframe src="${link}"></iframe>`;
       };
       chaptersContainer.appendChild(chapterItem);
     });
@@ -107,7 +143,19 @@
     // Toggle text format
     formatToggle.onclick = () => {
       isFormatted = !isFormatted;
-      storyContent.innerHTML = `<p>${isFormatted ? "Formatted" : "Raw"} version selected. Choose a chapter to load.</p>`;
+      storyContent.innerHTML = `<p>${isFormatted ? "Colored" : "Plain"} version selected. Choose a chapter to load.</p>`;
+    };
+
+    // Enable full screen
+    fullscreenToggle.onclick = () => {
+      storyContent.classList.add('fullscreen');
+      exitFullscreenButton.style.display = "block";
+    };
+
+    // Exit full screen
+    exitFullscreenButton.onclick = () => {
+      storyContent.classList.remove('fullscreen');
+      exitFullscreenButton.style.display = "none";
     };
   </script>
 </body>
