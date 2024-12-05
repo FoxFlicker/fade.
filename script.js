@@ -82,3 +82,57 @@ exitFullscreenButton.onclick = () => {
   storyContent.classList.remove('fullscreen');
   exitFullscreenButton.style.display = "none";
 };
+
+// Feedback handling
+const feedbackForm = document.getElementById('feedbackForm');
+const feedbackMessage = document.getElementById('feedbackMessage');
+const submitFeedback = document.getElementById('submitFeedback');
+let feedbackData = []; // Stores submitted feedback
+
+submitFeedback.onclick = () => {
+  const pollSelection = document.querySelector('input[name="poll"]:checked');
+  const comments = document.getElementById('comments').value.trim();
+
+  if (!pollSelection) {
+    feedbackMessage.innerText = "Please select a chapter in the poll.";
+    feedbackMessage.style.color = "red";
+    return;
+  }
+
+  if (comments === "") {
+    feedbackMessage.innerText = "Please leave a comment.";
+    feedbackMessage.style.color = "red";
+    return;
+  }
+
+  // Save feedback locally
+  feedbackData.push({
+    poll: pollSelection.value,
+    comments: comments,
+  });
+
+  // Clear form and display success message
+  feedbackForm.reset();
+  feedbackMessage.innerText = "Thank you for your feedback!";
+  feedbackMessage.style.color = "green";
+
+  // Display feedback on the page
+  displayFeedback();
+};
+
+// Function to display feedback on the page
+function displayFeedback() {
+  const feedbackContainer = document.getElementById('feedbackMessage');
+  feedbackContainer.innerHTML = "<h4>Submitted Feedback:</h4>";
+  feedbackData.forEach((entry, index) => {
+    const feedbackItem = document.createElement('div');
+    feedbackItem.innerHTML = `
+      <p><strong>Response ${index + 1}:</strong></p>
+      <p>Poll: ${entry.poll}</p>
+      <p>Comments: ${entry.comments}</p>
+      <hr>
+    `;
+    feedbackContainer.appendChild(feedbackItem);
+  });
+}
+
