@@ -186,6 +186,22 @@
       <h3>Chapters</h3>
       <div id="chapters"></div>
     </div>
+    <div id="feedback">
+  <h3>Feedback</h3>
+  <form id="feedbackForm">
+    <label for="poll">Which chapter is better?</label><br>
+    <input type="radio" id="new" name="poll" value="New">
+    <label for="new">New</label><br>
+    <input type="radio" id="archived" name="poll" value="Archived">
+    <label for="archived">Archived</label><br><br>
+
+    <label for="comments">Comments:</label><br>
+    <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Leave your comments here..."></textarea><br><br>
+
+    <button type="button" id="submitFeedback">Submit Feedback</button>
+  </form>
+  <div id="feedbackMessage"></div>
+</div>
   </div>
   <script src="script.js"></script>
 </body>
