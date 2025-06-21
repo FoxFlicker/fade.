@@ -11,8 +11,8 @@ const chapters = [
 //  { title: "Chapter 1 — fade. (archived) HTML", type: "html", file: "fade2.html" },
   { title: "Chapter 1 — fade. PDF (Formatted)", type: "pdf", file: "1-Fade.pdf" },
   { title: "Chapter 1 — fade. PDF (Colorless)", type: "pdf", file: "1-Fade-Colorless.pdf" },
-  { title: "Chapter 1 — fade. (archived) PDF (Formatted)", type: "pdf", file: "1-Fade-Archived-Version.pdf" },
-  { title: "Chapter 1 — fade. (archived) PDF (Colorless)", type: "pdf", file: "1-Fade-Archived-Version-Colorless.pdf" }
+  // { title: "Chapter 1 — fade. (archived) PDF (Formatted)", type: "pdf", file: "1-Fade-Archived-Version.pdf" },
+  // { title: "Chapter 1 — fade. (archived) PDF (Colorless)", type: "pdf", file: "1-Fade-Archived-Version-Colorless.pdf" }
 ];
 
 // Populate chapter list dynamically
