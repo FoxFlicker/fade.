@@ -17,7 +17,7 @@ const submitFeedback = document.getElementById('submitFeedback');
 const chapters = [
   { title: "Chapter 1 — fade. PDF (Formatted)", type: "pdf", file: "1-Fade.pdf" },
   { title: "Chapter 1 — fade. PDF (Colorless)", type: "pdf", file: "1-Fade-Colorless.pdf" },
-  { title: "AI Document", type: "pdf", file: "ai.pdf" },
+  { title: "AI Document", type: "pdf", file: "ai.pdf" }
 ];
 
 // Build chapter list
